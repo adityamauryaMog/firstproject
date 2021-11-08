@@ -38,7 +38,13 @@ public class FileUpload {
 	
     public List<String> getFile(String filename) throws IOException {
     	Path p=Paths.get(this.DESTINATION,filename);
-    	List<String> data=Files.readAllLines(p);
+    	File f=new File(p.toUri());
+        
+    	List<String> data=null;
+    	if(f.exists()) {
+    			
+           data=Files.readAllLines(p);
+    	}
 		return data;
 	}	
 }

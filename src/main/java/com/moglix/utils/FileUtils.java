@@ -32,7 +32,7 @@ public class FileUtils {
 	
 	
 	public ArrayList<String[]> getData() throws IOException {
-		String loc="/home/moglix/Downloads/pla_feed_dump20211029152447616.csv";
+		String loc=this.DESTINATION+File.separator+"pla.csv";
 	    File file=new File(loc);
 	    
 	    FileReader read=new FileReader(file);

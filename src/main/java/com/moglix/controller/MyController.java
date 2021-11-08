@@ -12,7 +12,9 @@ import java.util.List;
 import org.apache.catalina.LifecycleListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,9 +72,9 @@ public String uploadFile(@RequestParam("file") MultipartFile file) {
 	
 	
 }	
-@GetMapping("data")
-public List<String> get() throws IOException{
-	return fileUpload.getFile("pla.csv");
+@GetMapping(value="data/{filename}")
+public List<String> get(@PathVariable("filename") String filename) throws IOException{
+	return fileUpload.getFile(filename);
 }
 	
 
@@ -85,8 +87,14 @@ public List<String> get() throws IOException{
 
 //getting by id
 @GetMapping("get/{id}")	
-public Account  getData(@PathVariable("id") int id) {
-   return service.getData(id);	
+public ResponseEntity<?>  getData(@PathVariable("id") int id) {
+   Account res=service.getData(id);	
+   if(res!=null) {
+	   return ResponseEntity.ok(res);
+   }
+   
+   
+   return new ResponseEntity<String>("THIS ID NOT EXISTS",HttpStatus.NO_CONTENT);
 }
 
 
@@ -157,14 +165,14 @@ public Account  getData(@PathVariable("id") int id) {
 	}
 	
 	
+  @GetMapping("getdata")	
+  public List<String[]> getData() throws IOException {
+	  
+	  return f.getData();
 	
- 
+}
 	
-	public List<Account> getAccount() {
-		
-		return null;
-		
-	}
+
 
 
 }
